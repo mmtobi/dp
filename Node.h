@@ -4,19 +4,35 @@
 #include <memory>
 
 class Visitor;
+class Node_Impl;
+
 
 class Node {
 public:
-    virtual ~Node() = 0;
+    Node(std::unique_ptr<Node_Impl> node_impl);
+
+    int value() const;
+    std::shared_ptr<Node_Impl> left() const;
+    std::shared_ptr<Node_Impl> right() const;
+
+    void accept(Visitor&& visitor) const;
+
+private:
+    std::unique_ptr<Node_Impl> node_impl_;
+};
+
+class Node_Impl {
+public:
+    virtual ~Node_Impl() = 0;
 
     virtual int value() const;
-    virtual std::shared_ptr<Node> left() const;
-    virtual std::shared_ptr<Node> right() const;
+    virtual std::shared_ptr<Node_Impl> left() const;
+    virtual std::shared_ptr<Node_Impl> right() const;
 
     virtual void accept(Visitor&& visitor) const = 0;
 };
 
-class Leaf_Node : public Node {
+class Leaf_Node : public Node_Impl {
 public:
     Leaf_Node(int value);
     virtual ~Leaf_Node();
@@ -29,17 +45,17 @@ private:
     int value_;    
 };
 
-class Binary_Node : public Node {
+class Binary_Node : public Node_Impl {
 public:
-    Binary_Node(std::shared_ptr<Node> left, std::shared_ptr<Node> right);
+    Binary_Node(std::shared_ptr<Node_Impl> left, std::shared_ptr<Node_Impl> right);
     virtual ~Binary_Node() = 0;
 
-    virtual std::shared_ptr<Node> left() const;
-    virtual std::shared_ptr<Node> right() const;
+    virtual std::shared_ptr<Node_Impl> left() const;
+    virtual std::shared_ptr<Node_Impl> right() const;
 
 protected:
-    std::shared_ptr<Node> left_;
-    std::shared_ptr<Node> right_;
+    std::shared_ptr<Node_Impl> left_;
+    std::shared_ptr<Node_Impl> right_;
 };
 
 class Add_Node : public Binary_Node {
@@ -78,18 +94,18 @@ public:
     virtual void accept(Visitor&& visitor) const;
 };
 
-class Negate_Node : public Node {
+class Negate_Node : public Node_Impl {
 public:
-    Negate_Node(std::shared_ptr<Node> child);
+    Negate_Node(std::shared_ptr<Node_Impl> child);
     virtual ~Negate_Node();
 
     virtual int value() const;
-    virtual std::shared_ptr<Node> left() const;
+    virtual std::shared_ptr<Node_Impl> left() const;
 
     virtual void accept(Visitor&& visitor) const;
 
 private:
-    std::shared_ptr<Node> child_;
+    std::shared_ptr<Node_Impl> child_;
     int value_;    
 };
 
