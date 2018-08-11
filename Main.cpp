@@ -1,4 +1,5 @@
 #include "Node.h"
+#include "Visitor.h"
 #include <iostream>
 #include <memory>
 
@@ -12,4 +13,6 @@ int main() {
             std::make_shared<Add_Node>(
                 std::make_shared<Leaf_Node>(4),
                 std::make_shared<Leaf_Node>(3)));
+
+    expr->accept(Print_Visitor());
 }
