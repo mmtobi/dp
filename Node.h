@@ -1,24 +1,33 @@
 #ifndef Node_h
 #define Node_h
 
-#include <memory>
+#define private public
+#define protected public
 
 class Visitor;
 class Node_Impl;
-
+class Iterator;
+class Iterator_Impl;
+enum class Traversal_Type;
 
 class Node {
 public:
-    Node(std::unique_ptr<Node_Impl> node_impl);
+    Node(Node_Impl* node_impl);
 
     int value() const;
-    std::shared_ptr<Node_Impl> left() const;
-    std::shared_ptr<Node_Impl> right() const;
+    Node_Impl* left() const;
+    Node_Impl* right() const;
 
-    void accept(Visitor&& visitor) const;
+    void accept(Visitor& visitor);
+
+    virtual Iterator begin(Traversal_Type traversal_type);
+    virtual Iterator end(Traversal_Type traversal_type);
+
+    virtual bool operator==(const Node& rhs) const;
+    virtual bool operator!=(const Node& rhs) const;
 
 private:
-    std::unique_ptr<Node_Impl> node_impl_;
+    Node_Impl* node_impl_;
 };
 
 class Node_Impl {
@@ -26,10 +35,10 @@ public:
     virtual ~Node_Impl() = 0;
 
     virtual int value() const;
-    virtual std::shared_ptr<Node_Impl> left() const;
-    virtual std::shared_ptr<Node_Impl> right() const;
+    virtual Node_Impl* left() const;
+    virtual Node_Impl* right() const;
 
-    virtual void accept(Visitor&& visitor) const = 0;
+    virtual void accept(Visitor& visitor) = 0;
 };
 
 class Leaf_Node : public Node_Impl {
@@ -39,7 +48,7 @@ public:
 
     virtual int value() const;
 
-    virtual void accept(Visitor&& visitor) const;
+    virtual void accept(Visitor& visitor);
 
 private:
     int value_;    
@@ -47,15 +56,15 @@ private:
 
 class Binary_Node : public Node_Impl {
 public:
-    Binary_Node(std::shared_ptr<Node_Impl> left, std::shared_ptr<Node_Impl> right);
+    Binary_Node(Node_Impl* left, Node_Impl* right);
     virtual ~Binary_Node() = 0;
 
-    virtual std::shared_ptr<Node_Impl> left() const;
-    virtual std::shared_ptr<Node_Impl> right() const;
+    virtual Node_Impl* left() const;
+    virtual Node_Impl* right() const;
 
 protected:
-    std::shared_ptr<Node_Impl> left_;
-    std::shared_ptr<Node_Impl> right_;
+    Node_Impl* left_;
+    Node_Impl* right_;
 };
 
 class Add_Node : public Binary_Node {
@@ -64,7 +73,7 @@ public:
 
     virtual int value() const;
 
-    virtual void accept(Visitor&& visitor) const;
+    virtual void accept(Visitor& visitor);
 };
 
 class Subtract_Node : public Binary_Node {
@@ -73,7 +82,7 @@ public:
 
     virtual int value() const;
 
-    virtual void accept(Visitor&& visitor) const;
+    virtual void accept(Visitor& visitor);
 };
 
 class Multiply_Node : public Binary_Node {
@@ -82,7 +91,7 @@ public:
 
     virtual int value() const;
 
-    virtual void accept(Visitor&& visitor) const;
+    virtual void accept(Visitor& visitor);
 };
 
 class Divide_Node : public Binary_Node {
@@ -91,22 +100,27 @@ public:
 
     virtual int value() const;
 
-    virtual void accept(Visitor&& visitor) const;
+    virtual void accept(Visitor& visitor);
 };
 
 class Negate_Node : public Node_Impl {
 public:
-    Negate_Node(std::shared_ptr<Node_Impl> child);
+    Negate_Node(Node_Impl* child);
     virtual ~Negate_Node();
 
     virtual int value() const;
-    virtual std::shared_ptr<Node_Impl> left() const;
+    virtual Node_Impl* left() const;
 
-    virtual void accept(Visitor&& visitor) const;
+    virtual void accept(Visitor& visitor);
 
 private:
-    std::shared_ptr<Node_Impl> child_;
+    Node_Impl* child_;
     int value_;    
+};
+
+class Sentinel_Node : public Node_Impl {
+public:
+    virtual void accept(Visitor& visitor);
 };
 
 #endif
