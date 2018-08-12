@@ -13,7 +13,7 @@ class Iterator_Impl;
 
 class Iterator {
 public:
-    Iterator(Iterator_Impl* iterator_impl);
+    Iterator(std::shared_ptr<Iterator_Impl> iterator_impl);
 
     Node operator*();
     void operator++(); 
@@ -21,7 +21,7 @@ public:
     bool operator!=(const Iterator& rhs) const;
 
 private:
-    Iterator_Impl* iterator_impl_;
+    std::shared_ptr<Iterator_Impl> iterator_impl_;
 };
 
 class Iterator_Impl {
@@ -30,9 +30,6 @@ public:
     virtual void operator++() = 0;
     virtual bool operator==(const Iterator_Impl& rhs) const;
     virtual bool operator!=(const Iterator_Impl& rhs) const;
-
-protected:
-//    Node* current_;
 };
 
 class Preorder_Iterator : public Iterator_Impl {

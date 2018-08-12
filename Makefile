@@ -1,11 +1,11 @@
 CC = g++
 CCFLAGS = -std=c++14
 
-all: Exe 
+all: Dp 
 
-Exe : Main.o Node.o Visitor.o Iterator.o
+Dp: Main.o Node.o Visitor.o Iterator.o
 
-	$(CC) -o Exe Main.o Node.o Visitor.o Iterator.o
+	$(CC) -o Dp Main.o Node.o Visitor.o Iterator.o
 
 Main.o: Main.cpp
 	$(CC) $(CCFLAGS) -c Main.cpp

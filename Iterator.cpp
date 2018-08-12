@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-Iterator::Iterator(Iterator_Impl* iterator_impl)
+Iterator::Iterator(std::shared_ptr<Iterator_Impl> iterator_impl)
 : iterator_impl_(iterator_impl) {}
 
 Node Iterator::operator*() {

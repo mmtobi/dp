@@ -18,11 +18,11 @@ std::shared_ptr<Node_Impl> Node::right() const {
 }
 
 Iterator Node::begin(Traversal_Type traversal_type) {
-    return Iterator(new Preorder_Iterator(*this));
+    return Iterator(std::make_shared<Preorder_Iterator>(*this));
 }
 
 Iterator Node::end(Traversal_Type traversal_type) {
-    return Iterator(new Preorder_Iterator(Node(nullptr)));
+    return Iterator(std::make_shared<Preorder_Iterator>(Node(nullptr)));
 }
 
 void Node::accept(Visitor& visitor) {
