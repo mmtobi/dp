@@ -2,18 +2,18 @@
 #include "Visitor.h"
 #include "Iterator.h"
 
-Node::Node(Node_Impl* node_impl)
+Node::Node(std::shared_ptr<Node_Impl> node_impl)
 : node_impl_(node_impl) {}
 
 int Node::value() const {
     return node_impl_->value();
 }
 
-Node_Impl* Node::left() const {
+std::shared_ptr<Node_Impl> Node::left() const {
     return node_impl_->left();
 }
 
-Node_Impl* Node::right() const {
+std::shared_ptr<Node_Impl> Node::right() const {
     return node_impl_->right();
 }
 
@@ -37,22 +37,18 @@ bool Node::operator!=(const Node& rhs) const {
     return node_impl_ != rhs.node_impl_;
 }
 
-Node_Impl::~Node_Impl() {}
-
 int Node_Impl::value() const { }
 
-Node_Impl* Node_Impl::left() const {
+std::shared_ptr<Node_Impl> Node_Impl::left() const {
     return nullptr;
 }
 
-Node_Impl* Node_Impl::right() const { 
+std::shared_ptr<Node_Impl> Node_Impl::right() const { 
     return nullptr;
 }
 
 Leaf_Node::Leaf_Node(int value) 
 : value_(value) { }
-
-Leaf_Node::~Leaf_Node() {}
 
 int Leaf_Node::value() const {
     return value_;
@@ -62,17 +58,15 @@ void Leaf_Node::accept(Visitor& visitor) {
     visitor.visit(*this);
 }
 
-Binary_Node::Binary_Node(Node_Impl* left, Node_Impl* right)
+Binary_Node::Binary_Node(std::shared_ptr<Node_Impl> left, std::shared_ptr<Node_Impl> right)
 : left_(left)
 , right_(right) { }
 
-Binary_Node::~Binary_Node() {}
-
-Node_Impl* Binary_Node::left() const {
+std::shared_ptr<Node_Impl> Binary_Node::left() const {
     return left_;
 }
 
-Node_Impl* Binary_Node::right() const {
+std::shared_ptr<Node_Impl> Binary_Node::right() const {
     return right_;
 }
 
@@ -108,10 +102,8 @@ void Divide_Node::accept(Visitor& visitor) {
     visitor.visit(*this);
 }
 
-Negate_Node::Negate_Node(Node_Impl* child)
+Negate_Node::Negate_Node(std::shared_ptr<Node_Impl> child)
 : child_(child) { } 
-
-Negate_Node::~Negate_Node() {}
 
 int Negate_Node::value() const {
     return -value_;
@@ -121,6 +113,6 @@ void Negate_Node::accept(Visitor& visitor) {
     visitor.visit(*this);
 }
 
-Node_Impl* Negate_Node::left() const {
+std::shared_ptr<Node_Impl> Negate_Node::left() const {
     return child_;
 }
