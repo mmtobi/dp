@@ -13,15 +13,10 @@ int main() {
 
     Print_Visitor print_visitor;
 
-    int x = 0;
     for (Iterator itr = expr.begin(Traversal_Type::PREORDER); 
         itr != expr.end(Traversal_Type::PREORDER);
         ++itr)
     {
-//        std::cout << x << std::endl;
         (*itr).accept(print_visitor);
-//        std::cout << std::endl;
-//        std::cout << std::endl;
-        x++;
     }
 }

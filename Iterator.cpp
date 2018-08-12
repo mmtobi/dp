@@ -23,23 +23,18 @@ bool Iterator::operator!=(const Iterator& rhs) const {
 }
 
 bool Iterator_Impl::operator==(const Iterator_Impl& rhs) const {
-//    return *current_ == *rhs.current_;
     return typeid(*this) == typeid(rhs);
 }
 
 bool Iterator_Impl::operator!=(const Iterator_Impl& rhs) const {
-//    return *current_ != *rhs.current_;
     return typeid(*this) != typeid(rhs);
 }
 
 Preorder_Iterator::Preorder_Iterator(const Node& node) {
-//    std::cout << "ctor " << this << " " << node.node_impl_ << std::endl;
     stack_.push(node);
 }
 
 Node Preorder_Iterator::operator*() const {
-//    std::cout << "Preorder_Iterator*" << this << std::endl;
-//    return *current_;
     if (!stack_.empty()) {
         return stack_.top();
     } else {
@@ -48,7 +43,6 @@ Node Preorder_Iterator::operator*() const {
 }
 
 void Preorder_Iterator::operator++() {
-//    std::cout << "Preorder_Iterator++ " << this <<  std::endl;
     if (!stack_.empty()) {
         Node current = stack_.top();
         stack_.pop();
@@ -61,9 +55,6 @@ void Preorder_Iterator::operator++() {
             stack_.push(current.left());
         }
     }
-//    else {
-//        current_ = new Node(nullptr);
-//    }
 }
 
 bool Preorder_Iterator::operator==(const Iterator_Impl& rhs) const {

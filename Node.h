@@ -1,9 +1,6 @@
 #ifndef Node_h
 #define Node_h
 
-#define private public
-#define protected public
-
 class Visitor;
 class Node_Impl;
 class Iterator;
@@ -116,11 +113,6 @@ public:
 private:
     Node_Impl* child_;
     int value_;    
-};
-
-class Sentinel_Node : public Node_Impl {
-public:
-    virtual void accept(Visitor& visitor);
 };
 
 #endif

@@ -24,8 +24,3 @@ void Print_Visitor::visit(const Divide_Node& divide_node) {
 void Print_Visitor::visit(const Negate_Node& negate_node) {
     std::cout << "- ";
 }
-
-void Print_Visitor::visit(const Sentinel_Node& sentinel_node) {
-    std::cout << "-Sentinel-";
-}
-

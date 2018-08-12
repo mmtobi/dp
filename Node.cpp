@@ -124,7 +124,3 @@ void Negate_Node::accept(Visitor& visitor) {
 Node_Impl* Negate_Node::left() const {
     return child_;
 }
-
-void Sentinel_Node::accept(Visitor& visitor) {
-    visitor.visit(*this);
-}
