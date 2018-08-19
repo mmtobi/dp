@@ -13,8 +13,8 @@ public:
     Node(std::shared_ptr<Node_Impl> node_impl);
 
     int value() const;
-    std::shared_ptr<Node_Impl> left() const;
-    std::shared_ptr<Node_Impl> right() const;
+    std::shared_ptr<Node> left() const;
+    std::shared_ptr<Node> right() const;
 
     void accept(Visitor& visitor);
 
@@ -31,8 +31,8 @@ private:
 class Node_Impl {
 public:
     virtual int value() const;
-    virtual std::shared_ptr<Node_Impl> left() const;
-    virtual std::shared_ptr<Node_Impl> right() const;
+    virtual std::shared_ptr<Node> left() const;
+    virtual std::shared_ptr<Node> right() const;
 
     virtual void accept(Visitor& visitor) = 0;
 };
@@ -51,14 +51,14 @@ private:
 
 class Binary_Node : public Node_Impl {
 public:
-    Binary_Node(std::shared_ptr<Node_Impl> left, std::shared_ptr<Node_Impl> right);
+    Binary_Node(std::shared_ptr<Node> left, std::shared_ptr<Node> right);
 
-    virtual std::shared_ptr<Node_Impl> left() const;
-    virtual std::shared_ptr<Node_Impl> right() const;
+    virtual std::shared_ptr<Node> left() const;
+    virtual std::shared_ptr<Node> right() const;
 
 protected:
-    std::shared_ptr<Node_Impl> left_;
-    std::shared_ptr<Node_Impl> right_;
+    std::shared_ptr<Node> left_;
+    std::shared_ptr<Node> right_;
 };
 
 class Add_Node : public Binary_Node {
@@ -99,15 +99,15 @@ public:
 
 class Negate_Node : public Node_Impl {
 public:
-    Negate_Node(std::shared_ptr<Node_Impl> child);
+    Negate_Node(std::shared_ptr<Node> child);
 
     virtual int value() const;
-    virtual std::shared_ptr<Node_Impl> left() const;
+    virtual std::shared_ptr<Node> left() const;
 
     virtual void accept(Visitor& visitor);
 
 private:
-    std::shared_ptr<Node_Impl> child_;
+    std::shared_ptr<Node> child_;
     int value_;    
 };
 

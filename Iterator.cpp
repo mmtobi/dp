@@ -48,11 +48,11 @@ void Preorder_Iterator::operator++() {
         stack_.pop();
 
         if (current.right() != nullptr) {
-            stack_.push(current.right());
+            stack_.push(*current.right());
         }
 
         if (current.left() != nullptr) {
-            stack_.push(current.left());
+            stack_.push(*current.left());
         }
     }
 }

@@ -9,11 +9,11 @@ int Node::value() const {
     return node_impl_->value();
 }
 
-std::shared_ptr<Node_Impl> Node::left() const {
+std::shared_ptr<Node> Node::left() const {
     return node_impl_->left();
 }
 
-std::shared_ptr<Node_Impl> Node::right() const {
+std::shared_ptr<Node> Node::right() const {
     return node_impl_->right();
 }
 
@@ -39,11 +39,11 @@ bool Node::operator!=(const Node& rhs) const {
 
 int Node_Impl::value() const { }
 
-std::shared_ptr<Node_Impl> Node_Impl::left() const {
+std::shared_ptr<Node> Node_Impl::left() const {
     return nullptr;
 }
 
-std::shared_ptr<Node_Impl> Node_Impl::right() const { 
+std::shared_ptr<Node> Node_Impl::right() const {
     return nullptr;
 }
 
@@ -58,15 +58,15 @@ void Leaf_Node::accept(Visitor& visitor) {
     visitor.visit(*this);
 }
 
-Binary_Node::Binary_Node(std::shared_ptr<Node_Impl> left, std::shared_ptr<Node_Impl> right)
+Binary_Node::Binary_Node(std::shared_ptr<Node> left, std::shared_ptr<Node> right)
 : left_(left)
 , right_(right) { }
 
-std::shared_ptr<Node_Impl> Binary_Node::left() const {
+std::shared_ptr<Node> Binary_Node::left() const {
     return left_;
 }
 
-std::shared_ptr<Node_Impl> Binary_Node::right() const {
+std::shared_ptr<Node> Binary_Node::right() const {
     return right_;
 }
 
@@ -102,7 +102,7 @@ void Divide_Node::accept(Visitor& visitor) {
     visitor.visit(*this);
 }
 
-Negate_Node::Negate_Node(std::shared_ptr<Node_Impl> child)
+Negate_Node::Negate_Node(std::shared_ptr<Node> child)
 : child_(child) { } 
 
 int Negate_Node::value() const {
@@ -113,6 +113,6 @@ void Negate_Node::accept(Visitor& visitor) {
     visitor.visit(*this);
 }
 
-std::shared_ptr<Node_Impl> Negate_Node::left() const {
+std::shared_ptr<Node> Negate_Node::left() const {
     return child_;
 }
