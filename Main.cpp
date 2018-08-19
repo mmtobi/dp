@@ -1,20 +1,17 @@
-#include "Node.h"
 #include "Iterator.h"
 #include "Command.h"
+#include "Node_Factory.h"
 #include <memory>
 
 int main() {
-    // TODO: remove this hardcoding by using Factory
-    Node expr(
-            std::make_shared<Multiply_Node>(
-                std::make_shared<Negate_Node>(std::make_shared<Leaf_Node>(5)),
-                std::make_shared<Add_Node>(
-                    std::make_shared<Leaf_Node>(4), 
-                    std::make_shared<Leaf_Node>(3))));
+    Node_Factory node_factory(std::make_shared<Standard_Node_Factory>());
+    auto expr = node_factory.make_node(Node_Type::MULTIPLY,
+            node_factory.make_node(Node_Type::NEGATE,
+                node_factory.make_node(Node_Type::LEAF, 5)),
+            node_factory.make_node(Node_Type::ADD,
+                node_factory.make_node(Node_Type::LEAF, 4),
+                node_factory.make_node(Node_Type::LEAF, 3)));
 
-    Command print_command(
-                std::make_shared<Print_Command>(
-                    std::make_shared<Node>(expr), 
-                    Traversal_Type::PREORDER));
+    Command print_command(std::make_shared<Print_Command>(expr, Traversal_Type::PREORDER));
     print_command.execute();
 }

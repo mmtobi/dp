@@ -8,6 +8,15 @@ class Node_Impl;
 class Iterator;
 enum class Traversal_Type;
 
+enum class Node_Type {
+    LEAF,
+    ADD,
+    SUBTRACT,
+    MULTIPLY,
+    DIVIDE,
+    NEGATE
+};
+
 class Node {
 public:
     Node(std::shared_ptr<Node_Impl> node_impl);
